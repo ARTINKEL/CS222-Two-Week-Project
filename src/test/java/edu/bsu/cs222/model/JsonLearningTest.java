@@ -1,4 +1,4 @@
-package edu.bsu.cs222;
+package edu.bsu.cs222.model;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -68,8 +68,7 @@ public class JsonLearningTest {
 
     @Test
     public void testRevisionParser() {
-        RevisionParser parser = new RevisionParser();
-        String user = parser.parser("user");
-        Assert.assertEquals("FrescoBot", user);
+        RevisionParser revisionParser = new RevisionParser();
+        Assert.assertNotNull(revisionParser.parse());
     }
 }
