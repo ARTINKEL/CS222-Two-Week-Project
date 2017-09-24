@@ -9,4 +9,12 @@ public class Revision {
         this.username = username;
         this.timestamp = timestamp;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
 }

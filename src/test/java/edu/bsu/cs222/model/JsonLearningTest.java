@@ -68,7 +68,8 @@ public class JsonLearningTest {
 
     @Test
     public void testRevisionParser() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
         RevisionParser revisionParser = new RevisionParser();
-        Assert.assertNotNull(revisionParser.parse());
+        Assert.assertNotNull(revisionParser.parse(inputStream));
     }
 }
