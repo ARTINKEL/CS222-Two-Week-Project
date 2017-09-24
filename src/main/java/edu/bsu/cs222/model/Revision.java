@@ -1,7 +1,5 @@
 package edu.bsu.cs222.model;
 
-import com.google.gson.JsonObject;
-
 public class Revision {
 
     private String username;

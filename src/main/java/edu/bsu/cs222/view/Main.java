@@ -20,7 +20,7 @@ public class Main extends Application {
         box.getChildren().add(submitButton);
         Label outputLabel = new Label();
         RevisionParser revisionParser = new RevisionParser();
-        outputLabel.setText(revisionParser.parse().get(0).getRevision().getAsString());
+        outputLabel.setText(revisionParser.parse().get(0).toString());
         box.getChildren().add(outputLabel);
         Scene scene = new Scene(box);
         primaryStage.setScene(scene);
