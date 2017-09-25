@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Map;
 
-public class JsonLearningTest {
+public class RevisionParserTest {
 
     @Test
     public void testCountRevisions() {

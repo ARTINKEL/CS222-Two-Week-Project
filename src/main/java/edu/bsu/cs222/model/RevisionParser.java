@@ -6,6 +6,7 @@ import jdk.internal.util.xml.impl.Input;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +42,9 @@ public class RevisionParser {
         return username.getAsString();
     }
 
-    public String parseTimestamp(JsonElement element) {
+    public Instant parseTimestamp(JsonElement element) {
         JsonObject elementAsObject = element.getAsJsonObject();
         JsonPrimitive timestamp = elementAsObject.getAsJsonPrimitive("timestamp");
-        return timestamp.getAsString();
+        return Instant.parse(timestamp.getAsString());
     }
 }

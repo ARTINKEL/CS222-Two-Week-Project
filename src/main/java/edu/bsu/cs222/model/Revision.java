@@ -1,13 +1,14 @@
 package edu.bsu.cs222.model;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 public class Revision {
 
     private String username;
-    private String timestamp;
+    private Instant timestamp;
 
-    public Revision(String username, String timestamp) {
+    public Revision(String username, Instant timestamp) {
         this.username = username;
         this.timestamp = timestamp;
     }
@@ -16,11 +17,7 @@ public class Revision {
         return username;
     }
 
-    public String getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
-    }
-
-    public ZonedDateTime convertTimezone() {
-        return null;
     }
 }
