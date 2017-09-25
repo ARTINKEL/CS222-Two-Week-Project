@@ -72,4 +72,9 @@ public class JsonLearningTest {
         RevisionParser revisionParser = new RevisionParser();
         Assert.assertNotNull(revisionParser.parse(inputStream));
     }
+
+    @Test
+    public void testSortRevisions() {
+
+    }
 }

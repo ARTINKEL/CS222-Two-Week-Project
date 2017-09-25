@@ -1,6 +1,8 @@
 package edu.bsu.cs222.model;
 
 
+import java.time.ZonedDateTime;
+
 public class Revision {
 
     private String username;
@@ -17,5 +19,9 @@ public class Revision {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public ZonedDateTime convertTimezone() {
+        return null;
     }
 }
