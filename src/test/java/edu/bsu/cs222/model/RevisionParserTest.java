@@ -74,7 +74,7 @@ public class RevisionParserTest {
     }
 
     @Test
-    public void testSortRevisions() {
+    public void testConvertTimestamp() {
 
     }
 }

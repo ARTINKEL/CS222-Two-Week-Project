@@ -1,12 +1,13 @@
 package edu.bsu.cs222.model;
 
 import com.google.gson.*;
-import jdk.internal.util.xml.impl.Input;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class RevisionParser {
     }
 
     public List<Revision> createRevisionOjectsArray (JsonArray revisionArray) {
-        ArrayList<Revision> revisionObjectsArrayList = new ArrayList<Revision>();
+        ArrayList<Revision> revisionObjectsArrayList = new ArrayList<>();
         for (JsonElement r : revisionArray) {
             Revision revisionObject = new Revision(parseUsername(r), parseTimestamp(r));
             revisionObjectsArrayList.add(revisionObject);
@@ -42,9 +43,16 @@ public class RevisionParser {
         return username.getAsString();
     }
 
-    public Instant parseTimestamp(JsonElement element) {
+    public String parseTimestamp(JsonElement element) {
         JsonObject elementAsObject = element.getAsJsonObject();
         JsonPrimitive timestamp = elementAsObject.getAsJsonPrimitive("timestamp");
-        return Instant.parse(timestamp.getAsString());
+        Instant timestampAsInstant = Instant.parse(timestamp.getAsString());
+        return convertTimestamp(timestampAsInstant);
+    }
+
+    public String convertTimestamp(Instant time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
+        String dateTimeString = formatter.format(time) + " " + ZoneId.systemDefault().toString();
+        return dateTimeString;
     }
 }

@@ -4,13 +4,14 @@ import java.util.*;
 
 public class RevisionSorter {
 
+    private final int ZERO_COUNT = 0;
+
+    private HashMap<String, Integer> mapOfUserFrequencies = new HashMap<>();
+
     public HashMap<String, Integer> calculateFrequency(List<Revision> revisionsList) {
-        HashMap<String, Integer> mapOfUserFrequencies = new HashMap<>();
-
-        int count = 0;
-
+        int count;
         for (int i = 0; i < revisionsList.size(); i++) {
-            count = 0;
+            count = ZERO_COUNT;
             for (Revision r : revisionsList) {
                 if (revisionsList.get(i).getUsername().equals(r.getUsername())) {
                     count++;

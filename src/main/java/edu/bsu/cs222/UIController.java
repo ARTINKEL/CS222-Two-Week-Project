@@ -27,6 +27,8 @@ public class UIController extends Application {
 
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
+    private final int MIN_WIDTH_USERNAME = 165;
+    private final int MIN_WIDTH_TIMESTAMP = 315;
 
     public void start(Stage primaryStage) throws Exception {
         final VBox box = new VBox();
@@ -65,17 +67,15 @@ public class UIController extends Application {
     private TableView createTable(ObservableList data) {
         final TableView table = new TableView();
         TableColumn usernameCol = new TableColumn("Username");
-        usernameCol.setMinWidth(100);
+        usernameCol.setMinWidth(MIN_WIDTH_USERNAME);
         usernameCol.setCellValueFactory(new PropertyValueFactory<Revision, String>("username"));
 
         TableColumn timestampCol = new TableColumn("Time");
-        timestampCol.setMinWidth(100);
+        timestampCol.setMinWidth(MIN_WIDTH_TIMESTAMP);
         timestampCol.setCellValueFactory(new PropertyValueFactory<Revision, String>("timestamp"));
 
-        TableColumn frequencyCol = new TableColumn("Number of Edits");
-
         table.setItems(data);
-        table.getColumns().addAll(usernameCol, timestampCol, frequencyCol);
+        table.getColumns().addAll(usernameCol, timestampCol);
         return table;
     }
 }
