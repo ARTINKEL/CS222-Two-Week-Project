@@ -1,6 +1,5 @@
 package edu.bsu.cs222.model;
 
-
 import java.time.ZonedDateTime;
 
 public class Revision {

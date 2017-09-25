@@ -2,8 +2,8 @@ package edu.bsu.cs222;
 import com.google.gson.JsonArray;
 import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
+import edu.bsu.cs222.model.RevisionSorter;
 import edu.bsu.cs222.model.WikiURLConnector;
-import edu.bsu.cs222.view.RevisionView;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,12 +15,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class UIController extends Application {
 
     private WikiURLConnector urlConnector = new WikiURLConnector();
     private RevisionParser parser = new RevisionParser();
+    private RevisionSorter revisionSorter = new RevisionSorter();
 
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
@@ -34,7 +37,7 @@ public class UIController extends Application {
         final TextField inputTextField = new TextField();
         box.getChildren().add(inputTextField);
 
-        final Button submitButton = new Button("Submit!");
+        final Button submitButton = new Button("Submit");
         box.getChildren().add(submitButton);
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -49,8 +52,6 @@ public class UIController extends Application {
                 final ObservableList<Revision> data = FXCollections.observableArrayList();
                 for (Revision r : revisions) {
                     data.add(new Revision(r.getUsername(), r.getTimestamp()));
-                    RevisionView revisionView = new RevisionView(r);
-                    //box.getChildren().add(revisionView);
                 }
                 TableView table = createTable(data);
                 box.getChildren().add(table);

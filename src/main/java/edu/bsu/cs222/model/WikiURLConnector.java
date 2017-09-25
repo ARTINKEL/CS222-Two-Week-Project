@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class WikiURLConnector {
+
     public InputStream URLConnect(String searchTerm) throws Exception {
 
         String URLPartOne = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=";
