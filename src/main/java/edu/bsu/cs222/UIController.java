@@ -1,8 +1,9 @@
-package edu.bsu.cs222.view;
+package edu.bsu.cs222;
 import com.google.gson.JsonArray;
 import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
 import edu.bsu.cs222.model.WikiURLConnector;
+import edu.bsu.cs222.view.RevisionView;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,21 +16,24 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class Main extends Application {
+public class UIController extends Application {
 
     private WikiURLConnector urlConnector = new WikiURLConnector();
     private RevisionParser parser = new RevisionParser();
 
+    private final int WIDTH = 500;
+    private final int HEIGHT = 500;
+
     public void start(Stage primaryStage) throws Exception {
         final VBox box = new VBox();
 
-        Label urlLabel = new Label("Enter URL: ");
+        final Label urlLabel = new Label("Enter URL: ");
         box.getChildren().add(urlLabel);
 
         final TextField inputTextField = new TextField();
         box.getChildren().add(inputTextField);
 
-        Button submitButton = new Button("Submit!");
+        final Button submitButton = new Button("Submit!");
         box.getChildren().add(submitButton);
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -39,8 +43,8 @@ public class Main extends Application {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                List<Revision> revisions = parser.createRevisionOjectsArray(array);
 
+                List<Revision> revisions = parser.createRevisionOjectsArray(array);
                 for (Revision r : revisions) {
                     RevisionView revisionView = new RevisionView(r);
                     box.getChildren().add(revisionView);
@@ -48,7 +52,7 @@ public class Main extends Application {
             }
         });
 
-        Scene scene = new Scene(box);
+        Scene scene = new Scene(box, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

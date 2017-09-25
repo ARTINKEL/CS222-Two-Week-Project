@@ -29,12 +29,21 @@ public class RevisionParser {
     public List<Revision> createRevisionOjectsArray (JsonArray revisionArray) {
         ArrayList<Revision> revisionObjectsArrayList = new ArrayList<Revision>();
         for (JsonElement r : revisionArray) {
-            JsonObject jsonElementAsObject = r.getAsJsonObject();
-            JsonPrimitive username = jsonElementAsObject.getAsJsonPrimitive("user");
-            JsonPrimitive timestamp = jsonElementAsObject.getAsJsonPrimitive("timestamp");
-            Revision revisionObject = new Revision(username.getAsString(), timestamp.getAsString());
+            Revision revisionObject = new Revision(parseUsername(r), parseTimestamp(r));
             revisionObjectsArrayList.add(revisionObject);
         }
         return revisionObjectsArrayList;
+    }
+
+    public String parseUsername(JsonElement element) {
+        JsonObject elementAsObject = element.getAsJsonObject();
+        JsonPrimitive username = elementAsObject.getAsJsonPrimitive("user");
+        return username.getAsString();
+    }
+
+    public String parseTimestamp(JsonElement element) {
+        JsonObject elementAsObject = element.getAsJsonObject();
+        JsonPrimitive timestamp = elementAsObject.getAsJsonPrimitive("timestamp");
+        return timestamp.getAsString();
     }
 }
