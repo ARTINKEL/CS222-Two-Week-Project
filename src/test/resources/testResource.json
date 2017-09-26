@@ -11,16 +11,12 @@
         "title": "Soup",
         "revisions": [
           {
-            "user": "FrescoBot",
-            "timestamp": "2017-09-04T17:33:49Z"
-          },
-          {
-            "user": "FrescoBot",
-            "timestamp": "2017-09-15T17:33:43Z"
-          },
-          {
             "user": "Darylgolden",
             "timestamp": "2017-08-31T14:34:15Z"
+          },
+          {
+            "user": "FrescoBot",
+            "timestamp": "2017-09-04T17:33:49Z"
           },
           {
             "user": "50.76.156.229",
@@ -30,6 +26,10 @@
           {
             "user": "CommonsDelinker",
             "timestamp": "2017-08-22T12:38:06Z"
+          },
+          {
+            "user": "FrescoBot",
+            "timestamp": "2017-09-15T17:33:43Z"
           },
           {
             "user": "2601:541:4304:E6B0:218:8BFF:FE74:FE4F",

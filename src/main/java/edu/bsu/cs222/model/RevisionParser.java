@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,5 +55,21 @@ public class RevisionParser {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
         String dateTimeString = formatter.format(time) + " " + ZoneId.systemDefault().toString();
         return dateTimeString;
+    }
+
+    public List<Revision> sortRevisionsByFrequency(List<Revision> revisionObjectsArrayList) {
+        RevisionSorter sorter = new RevisionSorter();
+        List<Revision> sortedRevisions = new ArrayList<>();
+        LinkedHashMap<String, Integer> frequencyMap = sorter.calculateFrequency(revisionObjectsArrayList);
+        List<String> sortedUserList = sorter.sortByFrequency(frequencyMap);
+
+        for (String username : sortedUserList) {
+            for (int i = 0; i < revisionObjectsArrayList.size(); i++) {
+                if (revisionObjectsArrayList.get(i).getUsername().equals(username)) {
+                    sortedRevisions.add(revisionObjectsArrayList.get(i));
+                }
+            }
+        }
+        return sortedRevisions;
     }
 }

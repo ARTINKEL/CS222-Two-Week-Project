@@ -6,9 +6,9 @@ public class RevisionSorter {
 
     private final int ZERO_COUNT = 0;
 
-    private HashMap<String, Integer> mapOfUserFrequencies = new HashMap<>();
+    private LinkedHashMap<String, Integer> mapOfUserFrequencies = new LinkedHashMap<>();
 
-    public HashMap<String, Integer> calculateFrequency(List<Revision> revisionsList) {
+    public LinkedHashMap<String, Integer> calculateFrequency(List<Revision> revisionsList) {
         int count;
         for (int i = 0; i < revisionsList.size(); i++) {
             count = ZERO_COUNT;
@@ -24,7 +24,14 @@ public class RevisionSorter {
         return mapOfUserFrequencies;
     }
 
-    public List<Revision> sortByFrequency(List<Revision> revisions) {
-        return null;
+    public List<String> sortByFrequency(LinkedHashMap<String, Integer> frequencyMap) {
+        List<String> listOfUsernames = new ArrayList<>(frequencyMap.keySet());
+        Collections.sort(listOfUsernames, new Comparator<String>() {
+            @Override
+            public int compare(String x, String y) {
+                return frequencyMap.get(y) - frequencyMap.get(x);
+            }
+        });
+        return listOfUsernames;
     }
 }

@@ -1,38 +1,35 @@
 package edu.bsu.cs222;
+
 import com.google.gson.JsonArray;
+import edu.bsu.cs222.model.GenerateTableData;
 import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
-import edu.bsu.cs222.model.RevisionSorter;
 import edu.bsu.cs222.model.WikiURLConnector;
+import edu.bsu.cs222.view.TableCreator;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class UIController extends Application {
-
-    private WikiURLConnector urlConnector = new WikiURLConnector();
-    private RevisionParser parser = new RevisionParser();
-    private RevisionSorter revisionSorter = new RevisionSorter();
 
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
     private final int MIN_WIDTH_USERNAME = 165;
     private final int MIN_WIDTH_TIMESTAMP = 315;
 
-    public void start(Stage primaryStage) throws Exception {
-        final VBox box = new VBox();
+    private RevisionParser parser = new RevisionParser();
+    private WikiURLConnector urlConnector = new WikiURLConnector();
 
+    public void start(Stage primaryStage) throws Exception {
+
+        final VBox box = new VBox();
         final Label urlLabel = new Label("Enter Search Term: ");
         box.getChildren().add(urlLabel);
 
@@ -41,41 +38,16 @@ public class UIController extends Application {
 
         final Button submitButton = new Button("Submit");
         box.getChildren().add(submitButton);
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                JsonArray array = null;
-                try {
-                    array = parser.parse(urlConnector.URLConnect(inputTextField.getText()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-                List<Revision> revisions = parser.createRevisionOjectsArray(array);
-                final ObservableList<Revision> data = FXCollections.observableArrayList();
-                for (Revision r : revisions) {
-                    data.add(new Revision(r.getUsername(), r.getTimestamp()));
-                }
-                TableView table = createTable(data);
-                box.getChildren().add(table);
-            }
+        submitButton.setOnAction(event -> {
+            GenerateTableData createTableData = new GenerateTableData();
+            ObservableList<Revision> data = createTableData.createData(inputTextField.getText());
+            TableView table = createTableData.createTable(data);
+            box.getChildren().add(table);
         });
+
         Scene scene = new Scene(box, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    private TableView createTable(ObservableList data) {
-        final TableView table = new TableView();
-        TableColumn usernameCol = new TableColumn("Username");
-        usernameCol.setMinWidth(MIN_WIDTH_USERNAME);
-        usernameCol.setCellValueFactory(new PropertyValueFactory<Revision, String>("username"));
-
-        TableColumn timestampCol = new TableColumn("Time");
-        timestampCol.setMinWidth(MIN_WIDTH_TIMESTAMP);
-        timestampCol.setCellValueFactory(new PropertyValueFactory<Revision, String>("timestamp"));
-
-        table.setItems(data);
-        table.getColumns().addAll(usernameCol, timestampCol);
-        return table;
     }
 }
