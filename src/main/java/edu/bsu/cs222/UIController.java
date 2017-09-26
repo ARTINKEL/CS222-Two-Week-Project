@@ -1,33 +1,31 @@
 package edu.bsu.cs222;
 
-import com.google.gson.JsonArray;
 import edu.bsu.cs222.model.GenerateTableData;
 import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
 import edu.bsu.cs222.model.WikiURLConnector;
-import edu.bsu.cs222.view.TableCreator;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class UIController extends Application {
 
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
-    private final int MIN_WIDTH_USERNAME = 165;
-    private final int MIN_WIDTH_TIMESTAMP = 315;
 
     private RevisionParser parser = new RevisionParser();
     private WikiURLConnector urlConnector = new WikiURLConnector();
+    private GenerateTableData tableDataOperator = new GenerateTableData();
+    private TableView table = new TableView();
+    private boolean clicked = false;
 
     public void start(Stage primaryStage) throws Exception {
+
+        primaryStage.setTitle("Shady Government App #3001");
 
         final VBox box = new VBox();
         final Label urlLabel = new Label("Enter Search Term: ");
@@ -37,13 +35,45 @@ public class UIController extends Application {
         box.getChildren().add(inputTextField);
 
         final Button submitButton = new Button("Submit");
-        box.getChildren().add(submitButton);
+        final Button sortByFrequencyButton = new Button("Sort Table by Number of Edits");
+        final Button clearButton = new Button("Clear Table");
+        final HBox hBox = new HBox();
+        hBox.getChildren().addAll(submitButton, sortByFrequencyButton, clearButton);
+
+        final Label errorLabel = new Label();
+        box.getChildren().add(hBox);
+        box.getChildren().add(errorLabel);
 
         submitButton.setOnAction(event -> {
-            GenerateTableData createTableData = new GenerateTableData();
-            ObservableList<Revision> data = createTableData.createData(inputTextField.getText());
-            TableView table = createTableData.createTable(data);
-            box.getChildren().add(table);
+            if (clicked) {
+                tableDataOperator.clearTableData(table);
+                box.getChildren().remove(table);
+            }
+            try {
+                errorLabel.setText(null);
+                ObservableList<Revision> data = tableDataOperator.createDataByTimestamp(inputTextField.getText());
+                table = tableDataOperator.createTable(data);
+                box.getChildren().add(table);
+                clicked = true;
+            } catch (Exception e) {
+                errorLabel.setText(tableDataOperator.errorControl("blank"));
+            }
+        });
+
+        sortByFrequencyButton.setOnAction(event -> {
+            tableDataOperator.clearTableData(table);
+            box.getChildren().remove(table);
+            try {
+                ObservableList<Revision> data = tableDataOperator.createDataByFrequency(inputTextField.getText());
+                table = tableDataOperator.createTable(data);
+                box.getChildren().add(table);
+            } catch (Exception e) {
+                errorLabel.setText(tableDataOperator.errorControl("blank"));
+            }
+        });
+
+        clearButton.setOnAction(event -> {
+            tableDataOperator.clearTableData(table);
         });
 
         Scene scene = new Scene(box, WIDTH, HEIGHT);

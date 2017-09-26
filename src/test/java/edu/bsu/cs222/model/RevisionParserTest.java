@@ -72,9 +72,4 @@ public class RevisionParserTest {
         RevisionParser revisionParser = new RevisionParser();
         Assert.assertNotNull(revisionParser.parse(inputStream));
     }
-
-    @Test
-    public void testConvertTimestamp() {
-
-    }
 }
