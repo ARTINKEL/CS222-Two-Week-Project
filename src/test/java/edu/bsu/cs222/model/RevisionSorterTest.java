@@ -4,19 +4,17 @@ import com.google.gson.JsonArray;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class RevisionSorterTest {
 
+    private RevisionParser parser = new RevisionParser();
+
     @Test
-    public void testCountOccurrences() throws Exception {
-
-        RevisionParser parser = new RevisionParser();
-
+    public void testCalculateFrequency() throws Exception {
         JsonArray array = parser.parse(getClass().getClassLoader().getResourceAsStream("testResource.json"));
-        List<Revision> revisionList = parser.createRevisionOjectsArray(array);
+        List<Revision> revisionList = parser.createRevisionObjectsArray(array);
 
         RevisionSorter sorter = new RevisionSorter();
 
@@ -27,10 +25,8 @@ public class RevisionSorterTest {
 
     @Test
     public void testSortByFrequency() {
-        RevisionParser parser = new RevisionParser();
-
         JsonArray array = parser.parse(getClass().getClassLoader().getResourceAsStream("testResource.json"));
-        List<Revision> revisionList = parser.createRevisionOjectsArray(array);
+        List<Revision> revisionList = parser.createRevisionObjectsArray(array);
 
         RevisionSorter sorter = new RevisionSorter();
 
@@ -39,5 +35,15 @@ public class RevisionSorterTest {
         List<String> usernameList = sorter.sortByFrequency(revisionMap);
 
         Assert.assertEquals("FrescoBot", usernameList.get(0));
+    }
+
+    @Test
+    public void testCalculateFrequency_isNotEmpty() {
+        JsonArray array = parser.parse(getClass().getClassLoader().getResourceAsStream("testResource.json"));
+        List<Revision> revisionList = parser.createRevisionObjectsArray(array);
+
+        RevisionSorter sorter = new RevisionSorter();
+        LinkedHashMap<String, Integer> frequencies = sorter.calculateFrequency(revisionList);
+        Assert.assertNotNull(frequencies);
     }
 }

@@ -1,7 +1,5 @@
 package edu.bsu.cs222.model;
 
-import java.time.Instant;
-
 public class Revision {
 
     private String username;

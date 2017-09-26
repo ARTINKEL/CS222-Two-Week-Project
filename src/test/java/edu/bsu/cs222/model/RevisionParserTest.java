@@ -10,8 +10,13 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+//Suppressing this warning to avoid putting multiple asserts in one test
+@SuppressWarnings("ConstantConditions")
 public class RevisionParserTest {
 
     @Test
@@ -27,7 +32,7 @@ public class RevisionParserTest {
             JsonObject entryObject = entry.getValue().getAsJsonObject();
             array = entryObject.getAsJsonArray("revisions");
         }
-        Assert.assertEquals(5, array.size());
+        Assert.assertEquals(6, array.size());
     }
 
     @Test
@@ -45,7 +50,7 @@ public class RevisionParserTest {
         }
         JsonObject revision = array.get(0).getAsJsonObject();
         String user = revision.get("user").getAsString();
-        Assert.assertEquals("FrescoBot", user);
+        Assert.assertEquals("Darylgolden", user);
     }
 
     @Test
@@ -63,13 +68,44 @@ public class RevisionParserTest {
         }
         JsonObject revision = array.get(1).getAsJsonObject();
         String timestamp = revision.get("timestamp").getAsString();
-        Assert.assertEquals("2017-08-31T14:34:15Z", timestamp);
+        Assert.assertEquals("2017-09-04T17:33:49Z", timestamp);
     }
 
     @Test
-    public void testRevisionParser() {
+    public void testParse() {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
         RevisionParser revisionParser = new RevisionParser();
         Assert.assertNotNull(revisionParser.parse(inputStream));
+    }
+
+    @Test
+    public void testCreateRevisionObjectsArray_isNotEmpty() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
+        RevisionParser revisionParser = new RevisionParser();
+        JsonArray array = revisionParser.parse(inputStream);
+        Assert.assertNotNull(revisionParser.createRevisionObjectsArray(array));
+    }
+
+    @Test
+    public void testParseUsername() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
+        RevisionParser revisionParser = new RevisionParser();
+        JsonArray array = revisionParser.parse(inputStream);
+        String expectedUsername = "Darylgolden";
+        Assert.assertEquals(expectedUsername, revisionParser.parseUsername(array.get(0)));
+    }
+
+    @Test
+    public void testParseTimestamp() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
+        RevisionParser revisionParser = new RevisionParser();
+        JsonArray array = revisionParser.parse(inputStream);
+        String expectedTimestamp = "08/31/2017 10:34:15" + " " + ZoneId.systemDefault();
+        Assert.assertEquals(expectedTimestamp, revisionParser.parseTimestamp(array.get(0)));
+    }
+
+    @Test
+    public void testSortRevisionsByFrequency() {
+
     }
 }

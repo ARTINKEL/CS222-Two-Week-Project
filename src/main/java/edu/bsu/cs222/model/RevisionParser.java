@@ -29,7 +29,7 @@ public class RevisionParser {
         return revisionArray;
     }
 
-    public List<Revision> createRevisionOjectsArray (JsonArray revisionArray) {
+    public List<Revision> createRevisionObjectsArray(JsonArray revisionArray) {
         ArrayList<Revision> revisionObjectsArrayList = new ArrayList<>();
         for (JsonElement r : revisionArray) {
             Revision revisionObject = new Revision(parseUsername(r), parseTimestamp(r));
@@ -53,8 +53,7 @@ public class RevisionParser {
 
     public String convertTimestamp(Instant time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
-        String dateTimeString = formatter.format(time) + " " + ZoneId.systemDefault().toString();
-        return dateTimeString;
+        return formatter.format(time) + " " + ZoneId.systemDefault().toString();
     }
 
     public List<Revision> sortRevisionsByFrequency(List<Revision> revisionObjectsArrayList) {
@@ -64,6 +63,7 @@ public class RevisionParser {
         List<String> sortedUserList = sorter.sortByFrequency(frequencyMap);
 
         for (String username : sortedUserList) {
+            //noinspection ForLoopReplaceableByForEach - I don't want to change it to a foreach
             for (int i = 0; i < revisionObjectsArrayList.size(); i++) {
                 if (revisionObjectsArrayList.get(i).getUsername().equals(username)) {
                     sortedRevisions.add(revisionObjectsArrayList.get(i));
