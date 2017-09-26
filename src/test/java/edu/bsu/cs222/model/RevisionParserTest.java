@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -106,6 +107,13 @@ public class RevisionParserTest {
 
     @Test
     public void testSortRevisionsByFrequency() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testResource.json");
+        RevisionParser revisionParser = new RevisionParser();
+        JsonArray array = revisionParser.parse(inputStream);
+        List<Revision> revisionList = revisionParser.createRevisionObjectsArray(array);
 
+        String expectedValues = "FrescoBot";
+        String actualValue = revisionParser.sortRevisionsByFrequency(revisionList).get(0).getUsername();
+        Assert.assertEquals(expectedValues, actualValue);
     }
 }
