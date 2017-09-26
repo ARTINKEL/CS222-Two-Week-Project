@@ -10,8 +10,8 @@ public class RevisionSorter {
         int frequency;
         for (int i = 0; i < revisionsList.size(); i++) {
             frequency = 0;
-            for (Revision r : revisionsList) {
-                if (revisionsList.get(i).getUsername().equals(r.getUsername())) {
+            for (Revision revisionObject : revisionsList) {
+                if (revisionsList.get(i).getUsername().equals(revisionObject.getUsername())) {
                     frequency++;
                 }
             }

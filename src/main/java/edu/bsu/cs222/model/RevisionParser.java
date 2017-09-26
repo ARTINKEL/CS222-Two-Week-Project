@@ -31,8 +31,8 @@ public class RevisionParser {
 
     public List<Revision> createRevisionObjectsArray(JsonArray revisionArray) {
         ArrayList<Revision> revisionObjectsArrayList = new ArrayList<>();
-        for (JsonElement r : revisionArray) {
-            Revision revisionObject = new Revision(parseUsername(r), parseTimestamp(r));
+        for (JsonElement revisionElement : revisionArray) {
+            Revision revisionObject = new Revision(parseUsername(revisionElement), parseTimestamp(revisionElement));
             revisionObjectsArrayList.add(revisionObject);
         }
         return revisionObjectsArrayList;
